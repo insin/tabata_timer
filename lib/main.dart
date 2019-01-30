@@ -49,19 +49,64 @@ class TabataSummary extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      child: ListView(
         children: <Widget>[
-          Text(
-            'Sets: ${tabata.sets}',
+          ListTile(
+            title: Text(
+              'Sets',
+              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20.0),
+            ),
+            subtitle: Text('${tabata.sets}'),
+            leading: Icon(
+              Icons.repeat,
+              color: Colors.blue,
+            ),
           ),
-          Text(
-            'Repetitions: ${tabata.reps}',
+          ListTile(
+            title: Text(
+              'Reps',
+              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20.0),
+            ),
+            subtitle: Text('${tabata.reps}'),
+            leading: Icon(
+              Icons.repeat,
+              color: Colors.blue,
+            ),
           ),
-          Text('Work time: ${formatTime(tabata.workTime)}'),
-          Text('Rest time: ${formatTime(tabata.restTime)}'),
-          Text('Break time: ${formatTime(tabata.breakTime)}'),
-          Text('Total time: ${formatTime(tabata.getTotalTime())}'),
+          Divider(),
+          ListTile(
+              title: Text(
+                'Work Time',
+                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20.0),
+              ),
+              subtitle: Text(formatTime(tabata.workTime)),
+              leading: Icon(Icons.timer, color: Colors.blue)),
+          ListTile(
+            title: Text(
+              'Rest Time',
+              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20.0),
+            ),
+            subtitle: Text(formatTime(tabata.restTime)),
+            leading: Icon(Icons.timer, color: Colors.blue),
+          ),
+          ListTile(
+            title: Text(
+              'Break Time',
+              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20.0),
+            ),
+            subtitle: Text(formatTime(tabata.breakTime)),
+            leading: Icon(Icons.timer, color: Colors.blue),
+          ),
+          Divider(),
+          ListTile(
+            title: Text(
+              'Total Time',
+              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20.0),
+            ),
+            subtitle: Text(formatTime(tabata.getTotalTime())),
+            leading: Icon(Icons.timer, color: Colors.blue),
+          ),
+          Divider(),
         ],
       ),
     );
