@@ -21,6 +21,7 @@ dependencies:
   cupertino_icons: ^0.1.2
 
   auto_size_text: ^0.3.0
+  numberpicker: ^1.0.0
 
 dev_dependencies:
   flutter_test:

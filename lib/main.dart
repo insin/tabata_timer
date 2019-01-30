@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:numberpicker/numberpicker.dart';
 
 import 'workout.dart';
 
@@ -45,34 +46,66 @@ class TimerApp extends StatelessWidget {
 class TabataSummary extends StatelessWidget {
   final Tabata tabata;
 
-  TabataSummary({this.tabata});
+  final Function(Tabata) onChange;
+
+  TabataSummary({this.tabata, this.onChange});
 
   Widget build(BuildContext context) {
     return Center(
       child: ListView(
         children: <Widget>[
           ListTile(
-            title: Text(
-              'Sets',
-              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20.0),
-            ),
-            subtitle: Text('${tabata.sets}'),
-            leading: Icon(
-              Icons.repeat,
-              color: Colors.blue,
-            ),
-          ),
+              title: Text(
+                'Sets',
+                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20.0),
+              ),
+              subtitle: Text('${tabata.sets}'),
+              leading: Icon(
+                Icons.repeat,
+                color: Colors.blue,
+              ),
+              onTap: () {
+                showDialog<int>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return new NumberPickerDialog.integer(
+                        minValue: 1,
+                        maxValue: 10,
+                        initialIntegerValue: tabata.sets,
+                        title: Text('Number of sets in the workout'),
+                      );
+                    }).then((sets) {
+                  if (sets == null) return;
+                  tabata.sets = sets;
+                  onChange(tabata);
+                });
+              }),
           ListTile(
-            title: Text(
-              'Reps',
-              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20.0),
-            ),
-            subtitle: Text('${tabata.reps}'),
-            leading: Icon(
-              Icons.repeat,
-              color: Colors.blue,
-            ),
-          ),
+              title: Text(
+                'Reps',
+                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20.0),
+              ),
+              subtitle: Text('${tabata.reps}'),
+              leading: Icon(
+                Icons.repeat,
+                color: Colors.blue,
+              ),
+              onTap: () {
+                showDialog<int>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return new NumberPickerDialog.integer(
+                        minValue: 1,
+                        maxValue: 10,
+                        initialIntegerValue: tabata.reps,
+                        title: Text('Number of reps in each set'),
+                      );
+                    }).then((reps) {
+                  if (reps == null) return;
+                  tabata.reps = reps;
+                  onChange(tabata);
+                });
+              }),
           Divider(),
           ListTile(
               title: Text(
@@ -80,23 +113,63 @@ class TabataSummary extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20.0),
               ),
               subtitle: Text(formatTime(tabata.workTime)),
-              leading: Icon(Icons.timer, color: Colors.blue)),
+              leading: Icon(Icons.timer, color: Colors.blue),
+              onTap: () {
+                showDialog<Duration>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return new DurationPickerDialog(
+                        initialDuration: tabata.workTime,
+                        title: Text('Excercise time per rep'),
+                      );
+                    }).then((workTime) {
+                  if (workTime == null) return;
+                  tabata.workTime = workTime;
+                  onChange(tabata);
+                });
+              }),
           ListTile(
-            title: Text(
-              'Rest Time',
-              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20.0),
-            ),
-            subtitle: Text(formatTime(tabata.restTime)),
-            leading: Icon(Icons.timer, color: Colors.blue),
-          ),
+              title: Text(
+                'Rest Time',
+                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20.0),
+              ),
+              subtitle: Text(formatTime(tabata.restTime)),
+              leading: Icon(Icons.timer, color: Colors.blue),
+              onTap: () {
+                showDialog<Duration>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return new DurationPickerDialog(
+                        initialDuration: tabata.restTime,
+                        title: Text('Rest time between reps'),
+                      );
+                    }).then((restTime) {
+                  if (restTime == null) return;
+                  tabata.restTime = restTime;
+                  onChange(tabata);
+                });
+              }),
           ListTile(
-            title: Text(
-              'Break Time',
-              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20.0),
-            ),
-            subtitle: Text(formatTime(tabata.breakTime)),
-            leading: Icon(Icons.timer, color: Colors.blue),
-          ),
+              title: Text(
+                'Break Time',
+                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20.0),
+              ),
+              subtitle: Text(formatTime(tabata.breakTime)),
+              leading: Icon(Icons.timer, color: Colors.blue),
+              onTap: () {
+                showDialog<Duration>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return new DurationPickerDialog(
+                        initialDuration: tabata.breakTime,
+                        title: Text('Break time between sets'),
+                      );
+                    }).then((breakTime) {
+                  if (breakTime == null) return;
+                  tabata.breakTime = breakTime;
+                  onChange(tabata);
+                });
+              }),
           Divider(),
           ListTile(
             title: Text(
@@ -109,6 +182,79 @@ class TabataSummary extends StatelessWidget {
           Divider(),
         ],
       ),
+    );
+  }
+}
+
+class DurationPickerDialog extends StatefulWidget {
+  final Duration initialDuration;
+  final EdgeInsets titlePadding;
+  final Widget title;
+  final Widget confirmWidget;
+  final Widget cancelWidget;
+
+  DurationPickerDialog(
+      {@required this.initialDuration,
+      this.title,
+      this.titlePadding,
+      Widget confirmWidget,
+      Widget cancelWidget})
+      : confirmWidget = confirmWidget ?? new Text("OK"),
+        cancelWidget = cancelWidget ?? new Text("CANCEL");
+
+  @override
+  State<StatefulWidget> createState() =>
+      new _DurationPickerDialogState(initialDuration);
+}
+
+class _DurationPickerDialogState extends State<DurationPickerDialog> {
+  int minutes;
+  int seconds;
+
+  _DurationPickerDialogState(Duration initialDuration) {
+    minutes = initialDuration.inMinutes;
+    seconds = initialDuration.inSeconds % Duration.secondsPerMinute;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new AlertDialog(
+      title: widget.title,
+      titlePadding: widget.titlePadding,
+      content: Row(children: [
+        new NumberPicker.integer(
+            initialValue: minutes,
+            minValue: 0,
+            maxValue: 10,
+            onChanged: (value) {
+              this.setState(() {
+                minutes = value;
+              });
+            }),
+        Text(
+          ':',
+          style: TextStyle(fontSize: 30),
+        ),
+        new NumberPicker.integer(
+            initialValue: seconds,
+            minValue: 0,
+            maxValue: 59,
+            onChanged: (value) {
+              this.setState(() {
+                seconds = value;
+              });
+            }),
+      ]),
+      actions: [
+        new FlatButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: widget.cancelWidget,
+        ),
+        new FlatButton(
+            onPressed: () => Navigator.of(context)
+                .pop(new Duration(minutes: minutes, seconds: seconds)),
+            child: widget.confirmWidget),
+      ],
     );
   }
 }
@@ -186,6 +332,12 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  _updateTabata(Tabata tabata) {
+    setState(() {
+      _tabata = tabata;
+    });
+  }
+
   _startWorkout() {
     var workout = new Workout(_tabata, _updateWorkout);
     workout.start();
@@ -199,7 +351,7 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: _workout == null
-          ? new TabataSummary(tabata: _tabata)
+          ? new TabataSummary(tabata: _tabata, onChange: _updateTabata)
           : new WorkoutSummary(workout: _workout),
       floatingActionButton: _workout == null
           ? FloatingActionButton(

@@ -27,19 +27,19 @@ void main() {
 
 class Tabata {
   /// Sets in a workout
-  final int sets;
+  int sets;
 
   /// Reps in a set
-  final int reps;
+  int reps;
 
   /// Time to work for in a rep
-  final Duration workTime;
+  Duration workTime;
 
   /// Rest time between reps
-  final Duration restTime;
+  Duration restTime;
 
   /// Break time between sets
-  final Duration breakTime;
+  Duration breakTime;
 
   Tabata({this.sets, this.reps, this.workTime, this.restTime, this.breakTime});
 
