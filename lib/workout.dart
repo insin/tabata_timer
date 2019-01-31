@@ -135,6 +135,8 @@ class Workout {
     _timer.cancel();
   }
 
+  get config => _config;
+
   get set => _set;
 
   get rep => _rep;
