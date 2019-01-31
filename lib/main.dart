@@ -34,7 +34,7 @@ class TimerApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Timer App',
+      title: 'Tabata Timer',
       theme: ThemeData(
         primarySwatch: Colors.deepPurple,
       ),
