@@ -62,7 +62,6 @@ class TabataSummary extends StatelessWidget {
               subtitle: Text('${tabata.sets}'),
               leading: Icon(
                 Icons.repeat,
-                color: Colors.blue,
               ),
               onTap: () {
                 showDialog<int>(
@@ -88,7 +87,6 @@ class TabataSummary extends StatelessWidget {
               subtitle: Text('${tabata.reps}'),
               leading: Icon(
                 Icons.repeat,
-                color: Colors.blue,
               ),
               onTap: () {
                 showDialog<int>(
@@ -113,7 +111,7 @@ class TabataSummary extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20.0),
               ),
               subtitle: Text(formatTime(tabata.workTime)),
-              leading: Icon(Icons.timer, color: Colors.blue),
+              leading: Icon(Icons.timer),
               onTap: () {
                 showDialog<Duration>(
                     context: context,
@@ -134,7 +132,7 @@ class TabataSummary extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20.0),
               ),
               subtitle: Text(formatTime(tabata.restTime)),
-              leading: Icon(Icons.timer, color: Colors.blue),
+              leading: Icon(Icons.timer),
               onTap: () {
                 showDialog<Duration>(
                     context: context,
@@ -155,7 +153,7 @@ class TabataSummary extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20.0),
               ),
               subtitle: Text(formatTime(tabata.breakTime)),
-              leading: Icon(Icons.timer, color: Colors.blue),
+              leading: Icon(Icons.timer),
               onTap: () {
                 showDialog<Duration>(
                     context: context,
@@ -177,7 +175,7 @@ class TabataSummary extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20.0),
             ),
             subtitle: Text(formatTime(tabata.getTotalTime())),
-            leading: Icon(Icons.timer, color: Colors.blue),
+            leading: Icon(Icons.timelapse),
           ),
           Divider(),
         ],

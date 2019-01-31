@@ -1,6 +1,8 @@
-library workout;
-
 import 'dart:async';
+
+import 'package:audioplayers/audio_cache.dart';
+
+var player = new AudioCache();
 
 var defaultTabata = new Tabata(
     sets: 5,
@@ -85,7 +87,9 @@ class Workout {
       nextStep();
     } else {
       _timeLeft -= new Duration(seconds: 1);
-      // TODO play countdown pips on 3... 2... 1...
+      if (_timeLeft.inSeconds <= 3 && _timeLeft.inSeconds >= 1) {
+        player.play('pip.mp3');
+      }
     }
 
     _totalTime += new Duration(seconds: 1);
@@ -94,36 +98,36 @@ class Workout {
   }
 
   nextStep() {
+    var sound = 'boop.mp3';
+
     if (_step == WorkoutState.working) {
       if (rep == _config.reps) {
         if (set == _config.sets) {
           stop();
           _step = WorkoutState.finished;
           _timeLeft = new Duration(seconds: 0);
-          // TODO play finished sound
           return;
         } else {
           _step = WorkoutState.breaking;
           _timeLeft = _config.breakTime;
-          // TODO play break time sound
+          sound = 'dingdingding.mp3';
         }
       } else {
         _step = WorkoutState.resting;
         _timeLeft = _config.restTime;
-        // TODO play rest time sound
       }
     } else if (_step == WorkoutState.resting) {
       _rep++;
       _step = WorkoutState.working;
       _timeLeft = _config.workTime;
-      // TODO play start working sound
     } else if (_step == WorkoutState.breaking) {
       _set++;
       _rep = 1;
       _step = WorkoutState.working;
       _timeLeft = _config.workTime;
-      // TODO play start working sound
     }
+
+    player.play(sound);
   }
 
   stop() {
