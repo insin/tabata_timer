@@ -106,7 +106,7 @@ class Workout {
           stop();
           _step = WorkoutState.finished;
           _timeLeft = new Duration(seconds: 0);
-          return;
+          sound = 'dingdingding.mp3';
         } else {
           _step = WorkoutState.breaking;
           _timeLeft = _config.breakTime;
@@ -125,6 +125,7 @@ class Workout {
       _rep = 1;
       _step = WorkoutState.working;
       _timeLeft = _config.workTime;
+      sound = 'dingdingding.mp3';
     }
 
     player.play(sound);
