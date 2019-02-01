@@ -118,21 +118,23 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                 )
               ]),
             ]),
-            Expanded(
-                child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          FlatButton(
-                              onPressed: _workout.isActive ? _pause : _start,
-                              child: Icon(_workout.isActive
-                                  ? Icons.pause
-                                  : Icons.play_arrow))
-                        ]))),
+            Expanded(child: _buildButtonBar()),
           ],
         ),
       ),
     );
+  }
+
+  Widget _buildButtonBar() {
+    if (_workout.step == WorkoutState.finished) {
+      return Container();
+    }
+    return Align(
+        alignment: Alignment.bottomCenter,
+        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          FlatButton(
+              onPressed: _workout.isActive ? _pause : _start,
+              child: Icon(_workout.isActive ? Icons.pause : Icons.play_arrow))
+        ]));
   }
 }
