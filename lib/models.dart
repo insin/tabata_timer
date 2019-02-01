@@ -11,22 +11,6 @@ var defaultTabata = new Tabata(
     restTime: new Duration(seconds: 10),
     breakTime: new Duration(seconds: 60));
 
-var quickTabata = new Tabata(
-    sets: 2,
-    reps: 2,
-    workTime: new Duration(seconds: 2),
-    restTime: new Duration(seconds: 2),
-    breakTime: new Duration(seconds: 2));
-
-void main() {
-  var workout = new Workout(quickTabata, (Workout workout) {
-    print(
-        "Round ${workout.set} / Rep ${workout.rep} / ${workout.timeLeft} / ${workout.step}");
-  });
-
-  workout.start();
-}
-
 class Tabata {
   /// Sets in a workout
   int sets;
@@ -57,7 +41,8 @@ enum WorkoutState { initial, working, resting, breaking, finished }
 class Workout {
   Tabata _config;
 
-  Function _callback;
+  /// Called when the workout's state has changed.
+  Function _onStateChange;
 
   WorkoutState _step = WorkoutState.initial;
 
@@ -74,17 +59,32 @@ class Workout {
   /// Current rep
   int _rep = 1;
 
-  Workout(this._config, this._callback);
+  Workout(this._config, this._onStateChange);
 
+  /// Starts or resumes the workout
   start() {
-    _step = WorkoutState.working;
-    _timeLeft = _config.workTime;
-    _timer = new Timer.periodic(new Duration(seconds: 1), this.tick);
+    if (_step == WorkoutState.initial) {
+      _step = WorkoutState.working;
+      _timeLeft = _config.workTime;
+    }
+    _timer = new Timer.periodic(new Duration(seconds: 1), _tick);
+    _onStateChange();
   }
 
-  tick(Timer timer) {
+  /// Pauses the workout
+  pause() {
+    _timer.cancel();
+    _onStateChange();
+  }
+
+  /// Stops the timer without triggering the state change callback.
+  dispose() {
+    _timer.cancel();
+  }
+
+  _tick(Timer timer) {
     if (_timeLeft == new Duration(seconds: 1)) {
-      nextStep();
+      _nextStep();
     } else {
       _timeLeft -= new Duration(seconds: 1);
       if (_timeLeft.inSeconds <= 3 && _timeLeft.inSeconds >= 1) {
@@ -94,16 +94,17 @@ class Workout {
 
     _totalTime += new Duration(seconds: 1);
 
-    _callback(this);
+    _onStateChange();
   }
 
-  nextStep() {
+  /// Moves the workout to the next appropriate step and sets up state for it.
+  _nextStep() {
     var sound = 'boop.mp3';
 
     if (_step == WorkoutState.working) {
       if (rep == _config.reps) {
         if (set == _config.sets) {
-          stop();
+          _timer.cancel();
           _step = WorkoutState.finished;
           _timeLeft = new Duration(seconds: 0);
           sound = 'dingdingding.mp3';
@@ -131,10 +132,6 @@ class Workout {
     player.play(sound);
   }
 
-  stop() {
-    _timer.cancel();
-  }
-
   get config => _config;
 
   get set => _set;
@@ -146,4 +143,6 @@ class Workout {
   get timeLeft => _timeLeft;
 
   get totalTime => _totalTime;
+
+  get isActive => _timer != null && _timer.isActive;
 }
