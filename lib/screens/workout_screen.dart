@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:screen/screen.dart';
 
 import '../models.dart';
 import '../utils.dart';
@@ -35,7 +36,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   initState() {
     super.initState();
     _workout = Workout(widget.tabata, _onWorkoutChanged);
-    _workout.start();
+    _start();
   }
 
   @override
@@ -46,6 +47,16 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
 
   _onWorkoutChanged() {
     this.setState(() {});
+  }
+
+  _pause() {
+    _workout.pause();
+    Screen.keepOn(false);
+  }
+
+  _start() {
+    _workout.start();
+    Screen.keepOn(true);
   }
 
   Widget build(BuildContext context) {
@@ -114,9 +125,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           FlatButton(
-                              onPressed: _workout.isActive
-                                  ? _workout.pause
-                                  : _workout.start,
+                              onPressed: _workout.isActive ? _pause : _start,
                               child: Icon(_workout.isActive
                                   ? Icons.pause
                                   : Icons.play_arrow))
