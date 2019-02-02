@@ -7,8 +7,8 @@ import '../utils.dart';
 
 String stepName(WorkoutState step) {
   switch (step) {
-    case WorkoutState.working:
-      return 'Work';
+    case WorkoutState.exercising:
+      return 'Exercise';
     case WorkoutState.resting:
       return 'Rest';
     case WorkoutState.breaking:

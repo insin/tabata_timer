@@ -78,10 +78,10 @@ class _TabataScreenState extends State<TabataScreen> {
             ),
             ListTile(
                 title: Text(
-                  'Work Time',
+                  'Exercise Time',
                   style: TextStyle(fontWeight: FontWeight.w500),
                 ),
-                subtitle: Text(formatTime(_tabata.workTime)),
+                subtitle: Text(formatTime(_tabata.exerciseTime)),
                 leading: Icon(Icons.timer),
                 trailing: Icon(Icons.edit, size: 14),
                 onTap: () {
@@ -89,12 +89,12 @@ class _TabataScreenState extends State<TabataScreen> {
                       context: context,
                       builder: (BuildContext context) {
                         return DurationPickerDialog(
-                          initialDuration: _tabata.workTime,
+                          initialDuration: _tabata.exerciseTime,
                           title: Text('Excercise time per rep'),
                         );
-                      }).then((workTime) {
-                    if (workTime == null) return;
-                    _tabata.workTime = workTime;
+                      }).then((exerciseTime) {
+                    if (exerciseTime == null) return;
+                    _tabata.exerciseTime = exerciseTime;
                     _onTabataChanged();
                   });
                 }),

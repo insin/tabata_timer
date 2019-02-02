@@ -7,7 +7,7 @@ var player = new AudioCache();
 var defaultTabata = new Tabata(
     sets: 5,
     reps: 5,
-    workTime: new Duration(seconds: 20),
+    exerciseTime: new Duration(seconds: 20),
     restTime: new Duration(seconds: 10),
     breakTime: new Duration(seconds: 60));
 
@@ -18,8 +18,8 @@ class Tabata {
   /// Reps in a set
   int reps;
 
-  /// Time to work for in a rep
-  Duration workTime;
+  /// Time to exercise for in each rep
+  Duration exerciseTime;
 
   /// Rest time between reps
   Duration restTime;
@@ -27,16 +27,16 @@ class Tabata {
   /// Break time between sets
   Duration breakTime;
 
-  Tabata({this.sets, this.reps, this.workTime, this.restTime, this.breakTime});
+  Tabata({this.sets, this.reps, this.exerciseTime, this.restTime, this.breakTime});
 
   Duration getTotalTime() {
-    return (workTime * sets * reps) +
+    return (exerciseTime * sets * reps) +
         (restTime * sets * (reps - 1)) +
         (breakTime * (sets - 1));
   }
 }
 
-enum WorkoutState { initial, working, resting, breaking, finished }
+enum WorkoutState { initial, exercising, resting, breaking, finished }
 
 class Workout {
   Tabata _config;
@@ -64,8 +64,8 @@ class Workout {
   /// Starts or resumes the workout
   start() {
     if (_step == WorkoutState.initial) {
-      _step = WorkoutState.working;
-      _timeLeft = _config.workTime;
+      _step = WorkoutState.exercising;
+      _timeLeft = _config.exerciseTime;
     }
     _timer = new Timer.periodic(new Duration(seconds: 1), _tick);
     _onStateChange();
@@ -101,7 +101,7 @@ class Workout {
   _nextStep() {
     var sound = 'boop.mp3';
 
-    if (_step == WorkoutState.working) {
+    if (_step == WorkoutState.exercising) {
       if (rep == _config.reps) {
         if (set == _config.sets) {
           _timer.cancel();
@@ -119,13 +119,13 @@ class Workout {
       }
     } else if (_step == WorkoutState.resting) {
       _rep++;
-      _step = WorkoutState.working;
-      _timeLeft = _config.workTime;
+      _step = WorkoutState.exercising;
+      _timeLeft = _config.exerciseTime;
     } else if (_step == WorkoutState.breaking) {
       _set++;
       _rep = 1;
-      _step = WorkoutState.working;
-      _timeLeft = _config.workTime;
+      _step = WorkoutState.exercising;
+      _timeLeft = _config.exerciseTime;
       sound = 'dingdingding.mp3';
     }
 
