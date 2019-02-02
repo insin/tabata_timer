@@ -74,17 +74,16 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
             ]),
             Divider(height: 32, color: Theme.of(context).primaryColor),
             AutoSizeText(formatTime(_workout.timeLeft),
-                style: TextStyle(fontSize: 130.0), maxLines: 1),
+                style: TextStyle(fontSize: 200.0), maxLines: 1),
             Divider(height: 32, color: Theme.of(context).primaryColor),
             Table(children: [
               TableRow(children: [
-                TableCell(child: Text('Set')),
-                TableCell(child: Text('Rep')),
+                TableCell(child: Text('Set', style: TextStyle(fontSize: 20.0))),
+                TableCell(child: Text('Rep', style: TextStyle(fontSize: 20.0))),
                 TableCell(
-                    child: Text(
-                  'Total Time',
-                  textAlign: TextAlign.end,
-                ))
+                    child: Text('Total Time',
+                        textAlign: TextAlign.end,
+                        style: TextStyle(fontSize: 20.0)))
               ]),
               TableRow(children: [
                 TableCell(
