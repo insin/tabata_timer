@@ -20,9 +20,7 @@ class _TabataScreenState extends State<TabataScreen> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Tabata Timer'),
-        ),
+        appBar: AppBar(title: Text('Tabata Timer'), leading: Icon(Icons.timer)),
         body: ListView(
           children: <Widget>[
             ListTile(
