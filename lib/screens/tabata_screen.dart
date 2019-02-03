@@ -4,9 +4,15 @@ import 'package:numberpicker/numberpicker.dart';
 import '../models.dart';
 import '../utils.dart';
 import '../widgets/durationpicker.dart';
+import 'settings_screen.dart';
 import 'workout_screen.dart';
 
 class TabataScreen extends StatefulWidget {
+  final Settings settings;
+  final Function onSettingsChanged;
+
+  TabataScreen({@required this.settings, @required this.onSettingsChanged});
+
   @override
   State<StatefulWidget> createState() => _TabataScreenState();
 }
@@ -20,17 +26,31 @@ class _TabataScreenState extends State<TabataScreen> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('Tabata Timer'), leading: Icon(Icons.timer)),
+        appBar: AppBar(
+          title: Text('Tabata Timer'),
+          leading: Icon(Icons.timer),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(
+                Icons.settings,
+              ),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => SettingsScreen(
+                            settings: widget.settings,
+                            onSettingsChanged: widget.onSettingsChanged)));
+              },
+            )
+          ],
+        ),
         body: ListView(
           children: <Widget>[
             ListTile(
-                title: Text(
-                  'Sets',
-                  style: TextStyle(fontWeight: FontWeight.w500),
-                ),
+                title: Text('Sets'),
                 subtitle: Text('${_tabata.sets}'),
                 leading: Icon(Icons.fitness_center),
-                trailing: Icon(Icons.edit, size: 14),
                 onTap: () {
                   showDialog<int>(
                       context: context,
@@ -39,7 +59,7 @@ class _TabataScreenState extends State<TabataScreen> {
                           minValue: 1,
                           maxValue: 10,
                           initialIntegerValue: _tabata.sets,
-                          title: Text('Number of sets in the workout'),
+                          title: Text('Sets in the workout'),
                         );
                       }).then((sets) {
                     if (sets == null) return;
@@ -48,13 +68,9 @@ class _TabataScreenState extends State<TabataScreen> {
                   });
                 }),
             ListTile(
-                title: Text(
-                  'Reps',
-                  style: TextStyle(fontWeight: FontWeight.w500),
-                ),
+                title: Text('Reps'),
                 subtitle: Text('${_tabata.reps}'),
                 leading: Icon(Icons.repeat),
-                trailing: Icon(Icons.edit, size: 14),
                 onTap: () {
                   showDialog<int>(
                       context: context,
@@ -63,7 +79,7 @@ class _TabataScreenState extends State<TabataScreen> {
                           minValue: 1,
                           maxValue: 10,
                           initialIntegerValue: _tabata.reps,
-                          title: Text('Number of reps in each set'),
+                          title: Text('Repetitions in each set'),
                         );
                       }).then((reps) {
                     if (reps == null) return;
@@ -75,20 +91,16 @@ class _TabataScreenState extends State<TabataScreen> {
               height: 10,
             ),
             ListTile(
-                title: Text(
-                  'Exercise Time',
-                  style: TextStyle(fontWeight: FontWeight.w500),
-                ),
+                title: Text('Exercise Time'),
                 subtitle: Text(formatTime(_tabata.exerciseTime)),
                 leading: Icon(Icons.timer),
-                trailing: Icon(Icons.edit, size: 14),
                 onTap: () {
                   showDialog<Duration>(
                       context: context,
                       builder: (BuildContext context) {
                         return DurationPickerDialog(
                           initialDuration: _tabata.exerciseTime,
-                          title: Text('Excercise time per rep'),
+                          title: Text('Excercise time per repetition'),
                         );
                       }).then((exerciseTime) {
                     if (exerciseTime == null) return;
@@ -97,20 +109,16 @@ class _TabataScreenState extends State<TabataScreen> {
                   });
                 }),
             ListTile(
-                title: Text(
-                  'Rest Time',
-                  style: TextStyle(fontWeight: FontWeight.w500),
-                ),
+                title: Text('Rest Time'),
                 subtitle: Text(formatTime(_tabata.restTime)),
                 leading: Icon(Icons.timer),
-                trailing: Icon(Icons.edit, size: 14),
                 onTap: () {
                   showDialog<Duration>(
                       context: context,
                       builder: (BuildContext context) {
                         return DurationPickerDialog(
                           initialDuration: _tabata.restTime,
-                          title: Text('Rest time between reps'),
+                          title: Text('Rest time between repetitions'),
                         );
                       }).then((restTime) {
                     if (restTime == null) return;
@@ -119,13 +127,9 @@ class _TabataScreenState extends State<TabataScreen> {
                   });
                 }),
             ListTile(
-                title: Text(
-                  'Break Time',
-                  style: TextStyle(fontWeight: FontWeight.w500),
-                ),
+                title: Text('Break Time'),
                 subtitle: Text(formatTime(_tabata.breakTime)),
                 leading: Icon(Icons.timer),
-                trailing: Icon(Icons.edit, size: 14),
                 onTap: () {
                   showDialog<Duration>(
                       context: context,
@@ -156,8 +160,11 @@ class _TabataScreenState extends State<TabataScreen> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => WorkoutScreen(tabata: _tabata)));
+                    builder: (context) => WorkoutScreen(
+                        settings: widget.settings, tabata: _tabata)));
           },
+          backgroundColor: Theme.of(context).primaryColor,
+          foregroundColor: Theme.of(context).primaryTextTheme.button.color,
           tooltip: 'Start Workout',
           child: Icon(Icons.play_arrow),
         ));

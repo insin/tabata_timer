@@ -21,9 +21,10 @@ String stepName(WorkoutState step) {
 }
 
 class WorkoutScreen extends StatefulWidget {
+  final Settings settings;
   final Tabata tabata;
 
-  WorkoutScreen({this.tabata});
+  WorkoutScreen({this.settings, this.tabata});
 
   @override
   State<StatefulWidget> createState() => _WorkoutScreenState();
@@ -35,7 +36,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   @override
   initState() {
     super.initState();
-    _workout = Workout(widget.tabata, _onWorkoutChanged);
+    _workout = Workout(widget.settings, widget.tabata, _onWorkoutChanged);
     _start();
   }
 
@@ -73,10 +74,10 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
             Row(mainAxisAlignment: MainAxisAlignment.end, children: [
               Text(stepName(_workout.step), style: TextStyle(fontSize: 40.0))
             ]),
-            Divider(height: 32, color: Theme.of(context).primaryColor),
+            Divider(height: 32),
             AutoSizeText(formatTime(_workout.timeLeft),
                 style: TextStyle(fontSize: 200.0), maxLines: 1),
-            Divider(height: 32, color: Theme.of(context).primaryColor),
+            Divider(height: 32),
             Table(columnWidths: {
               0: FlexColumnWidth(0.5),
               1: FlexColumnWidth(0.5),
@@ -135,10 +136,8 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     }
     return Align(
         alignment: Alignment.bottomCenter,
-        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          FlatButton(
-              onPressed: _workout.isActive ? _pause : _start,
-              child: Icon(_workout.isActive ? Icons.pause : Icons.play_arrow))
-        ]));
+        child: FlatButton(
+            onPressed: _workout.isActive ? _pause : _start,
+            child: Icon(_workout.isActive ? Icons.pause : Icons.play_arrow)));
   }
 }
