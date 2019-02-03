@@ -4,10 +4,24 @@ A Tabata training interval timer written with Flutter.
 
 ## Screenshots
 
-### Tabata config screen
+### Tabata config
 
-![](screenshots/config.png)
+![](screenshots/tabata_config.png)
 
 ### Workout screen
 
 ![](screenshots/workout.png)
+
+### Settings
+
+![](screenshots/settings.png)
+
+### Light theme selection
+
+![](screenshots/light_theme.png)
+
+### Night mode
+
+![](screenshots/tabata_config_night.png)
+
+![](screenshots/workout_night.png)
