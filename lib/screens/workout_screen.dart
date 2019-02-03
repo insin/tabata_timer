@@ -42,6 +42,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   @override
   dispose() {
     _workout.dispose();
+    Screen.keepOn(false);
     super.dispose();
   }
 
