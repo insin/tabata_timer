@@ -48,6 +48,9 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   }
 
   _onWorkoutChanged() {
+    if (_workout.step == WorkoutState.finished) {
+      Screen.keepOn(false);
+    }
     this.setState(() {});
   }
 
