@@ -75,9 +75,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
       ),
       body: ListView(
         children: <Widget>[
+          ListTile(
+            title: Text(
+              'Theme',
+              style: Theme.of(context).textTheme.subtitle,
+            ),
+          ),
           SwitchListTile(
             title: Text('Night mode'),
-            secondary: Icon(Icons.lightbulb_outline),
             value: widget.settings.nightMode,
             onChanged: (nightMode) {
               widget.settings.nightMode = nightMode;
@@ -87,7 +92,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ListTile(
             title: Text('Light theme'),
             subtitle: Text(colorNames[widget.settings.primarySwatch]),
-            leading: Icon(Icons.color_lens),
             onTap: () {
               showDialog(
                 context: context,
@@ -109,12 +113,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
             },
           ),
           Divider(height: 10),
-          Container(
-              padding: EdgeInsets.fromLTRB(16, 8, 16, 0),
-              child: Text(
-                'Sounds',
-                style: Theme.of(context).textTheme.subhead,
-              )),
+          ListTile(
+            title: Text(
+              'Sounds',
+              style: Theme.of(context).textTheme.subtitle,
+            ),
+          ),
           AudioSelectListItem(
               value: widget.settings.countdownPip,
               title: 'Countdown pips',
