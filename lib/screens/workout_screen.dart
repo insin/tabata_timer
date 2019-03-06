@@ -54,6 +54,19 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     this.setState(() {});
   }
 
+  _getBackgroundColor() {
+    switch (_workout.step) {
+      case WorkoutState.exercising:
+        return Colors.green;
+      case WorkoutState.resting:
+        return Colors.blue;
+      case WorkoutState.breaking:
+        return Colors.red;
+      default:
+        return Colors.white;
+    }
+  }
+
   _pause() {
     _workout.pause();
     Screen.keepOn(false);
@@ -65,11 +78,11 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   }
 
   Widget build(BuildContext context) {
+    var lightTextColor =
+        Theme.of(context).textTheme.body1.color.withOpacity(0.8);
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Workout'),
-      ),
       body: Container(
+        color: _getBackgroundColor(),
         padding: EdgeInsets.symmetric(horizontal: 15),
         child: Column(
           children: <Widget>[
@@ -77,10 +90,10 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
             Row(mainAxisAlignment: MainAxisAlignment.end, children: [
               Text(stepName(_workout.step), style: TextStyle(fontSize: 40.0))
             ]),
-            Divider(height: 32),
+            Divider(height: 32, color: lightTextColor),
             AutoSizeText(formatTime(_workout.timeLeft),
                 style: TextStyle(fontSize: 200.0), maxLines: 1),
-            Divider(height: 32),
+            Divider(height: 32, color: lightTextColor),
             Table(columnWidths: {
               0: FlexColumnWidth(0.5),
               1: FlexColumnWidth(0.5),
@@ -99,13 +112,13 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                     child: Row(children: [
                   Text('${_workout.set}', style: TextStyle(fontSize: 30.0)),
                   Text(' / ${_workout.config.sets}',
-                      style: TextStyle(color: Colors.grey))
+                      style: TextStyle(color: lightTextColor))
                 ])),
                 TableCell(
                     child: Row(children: [
                   Text('${_workout.rep}', style: TextStyle(fontSize: 30.0)),
                   Text(' / ${_workout.config.reps}',
-                      style: TextStyle(color: Colors.grey))
+                      style: TextStyle(color: lightTextColor))
                 ])),
                 TableCell(
                     child: Text(
@@ -120,7 +133,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                 TableCell(
                   child: Text(
                     ' / ${formatTime(_workout.config.getTotalTime())}',
-                    style: TextStyle(color: Colors.grey),
+                    style: TextStyle(color: lightTextColor),
                     textAlign: TextAlign.right,
                   ),
                 )
