@@ -10,7 +10,9 @@ A Tabata training interval timer written with Flutter.
 
 ### Workout screen
 
-![](screenshots/workout.png)
+![](screenshots/workout_exercise.png)
+
+![](screenshots/workout_rest.png)
 
 ### Settings
 
