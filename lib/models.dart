@@ -195,9 +195,9 @@ class Workout {
     _step = WorkoutState.finished;
     _timeLeft = new Duration(seconds: 0);
     player.play(_settings.endWorkout).then((p) {
-      p.completionHandler = () {
+      p.onPlayerCompletion.first.then((_) {
         player.play(_settings.endWorkout);
-      };
+      });
     });
   }
 

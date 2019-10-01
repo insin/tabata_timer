@@ -9,12 +9,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  audioplayers: ^0.8.0
-  auto_size_text: ^0.3.0
-  flutter_colorpicker: ^0.2.1
-  numberpicker: ^1.0.0
-  screen: ^0.0.4
-  shared_preferences: ^0.5.0
+  audioplayers: ^0.13.2
+  auto_size_text: ^2.1.0
+  flutter_colorpicker: ^0.2.6
+  numberpicker: ^1.1.0
+  screen: ^0.0.5
+  shared_preferences: ^0.5.3+4
 
 dev_dependencies:
   flutter_test:

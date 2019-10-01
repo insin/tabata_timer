@@ -42,6 +42,7 @@ class _DurationPickerDialogState extends State<DurationPickerDialog> {
             initialValue: minutes,
             minValue: 0,
             maxValue: 10,
+            zeroPad: true,
             onChanged: (value) {
               this.setState(() {
                 minutes = value;
@@ -56,6 +57,7 @@ class _DurationPickerDialogState extends State<DurationPickerDialog> {
             initialValue: seconds,
             minValue: 0,
             maxValue: 59,
+            zeroPad: true,
             onChanged: (value) {
               this.setState(() {
                 seconds = value;
