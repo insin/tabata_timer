@@ -6,6 +6,7 @@ import 'models.dart';
 import 'screens/tabata_screen.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitDown,
     DeviceOrientation.portraitUp,
