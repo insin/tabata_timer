@@ -1,7 +1,7 @@
 name: tabata_timer
 description: Tabata training interval timer.
 
-version: 1.2.0+3
+version: 1.2.1+4
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
