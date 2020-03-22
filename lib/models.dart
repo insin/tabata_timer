@@ -81,7 +81,7 @@ class Tabata {
   }
 }
 
-enum WorkoutState { initial, exercising, resting, breaking, finished }
+enum WorkoutState { initial, starting, exercising, resting, breaking, finished }
 
 class Workout {
   Settings _settings;
@@ -101,18 +101,18 @@ class Workout {
   Duration _totalTime = new Duration(seconds: 0);
 
   /// Current set
-  int _set = 1;
+  int _set = 0;
 
   /// Current rep
-  int _rep = 1;
+  int _rep = 0;
 
   Workout(this._settings, this._config, this._onStateChange);
 
   /// Starts or resumes the workout
   start() {
     if (_step == WorkoutState.initial) {
-      _step = WorkoutState.exercising;
-      _timeLeft = _config.exerciseTime;
+      _step = WorkoutState.starting;
+      _timeLeft = _config.startDelay;
     }
     _timer = new Timer.periodic(new Duration(seconds: 1), _tick);
     _onStateChange();
@@ -139,7 +139,9 @@ class Workout {
       }
     }
 
-    _totalTime += new Duration(seconds: 1);
+    if (_step != WorkoutState.starting) {
+      _totalTime += new Duration(seconds: 1);
+    }
 
     _onStateChange();
   }
@@ -158,7 +160,8 @@ class Workout {
       }
     } else if (_step == WorkoutState.resting) {
       _startRep();
-    } else if (_step == WorkoutState.breaking) {
+    } else if (_step == WorkoutState.starting ||
+        _step == WorkoutState.breaking) {
       _startSet();
     }
   }

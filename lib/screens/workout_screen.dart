@@ -15,6 +15,8 @@ String stepName(WorkoutState step) {
       return 'Break';
     case WorkoutState.finished:
       return 'Finished';
+    case WorkoutState.starting:
+      return 'Starting';
     default:
       return '';
   }
@@ -58,6 +60,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     switch (_workout.step) {
       case WorkoutState.exercising:
         return Colors.green;
+      case WorkoutState.starting:
       case WorkoutState.resting:
         return Colors.blue;
       case WorkoutState.breaking:
