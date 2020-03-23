@@ -18,6 +18,7 @@ class Settings {
   final SharedPreferences _prefs;
 
   bool nightMode;
+  bool silentMode;
   Color primarySwatch;
   String countdownPip;
   String startRep;
@@ -30,6 +31,7 @@ class Settings {
     Map<String, dynamic> json =
         jsonDecode(_prefs.getString('settings') ?? '{}');
     nightMode = json['nightMode'] ?? false;
+    silentMode = json['silentMode'] ?? false;
     primarySwatch = Colors.primaries[
         json['primarySwatch'] ?? Colors.primaries.indexOf(Colors.deepPurple)];
     countdownPip = json['countdownPip'] ?? 'pip.mp3';
@@ -46,6 +48,7 @@ class Settings {
 
   Map<String, dynamic> toJson() => {
         'nightMode': nightMode,
+        'silentMode': silentMode,
         'primarySwatch': Colors.primaries.indexOf(primarySwatch),
         'countdownPip': countdownPip,
         'startRep': startRep,
@@ -135,7 +138,7 @@ class Workout {
     } else {
       _timeLeft -= new Duration(seconds: 1);
       if (_timeLeft.inSeconds <= 3 && _timeLeft.inSeconds >= 1) {
-        player.play('pip.mp3');
+        _playSound(_settings.countdownPip);
       }
     }
 
@@ -166,23 +169,30 @@ class Workout {
     }
   }
 
+  Future _playSound(String sound) {
+    if (_settings.silentMode) {
+      return Future.value();
+    }
+    return player.play(sound);
+  }
+
   _startRest() {
     _step = WorkoutState.resting;
     _timeLeft = _config.restTime;
-    player.play(_settings.startRest);
+    _playSound(_settings.startRest);
   }
 
   _startRep() {
     _rep++;
     _step = WorkoutState.exercising;
     _timeLeft = _config.exerciseTime;
-    player.play(_settings.startRep);
+    _playSound(_settings.startRep);
   }
 
   _startBreak() {
     _step = WorkoutState.breaking;
     _timeLeft = _config.breakTime;
-    player.play(_settings.startBreak);
+    _playSound(_settings.startBreak);
   }
 
   _startSet() {
@@ -190,16 +200,19 @@ class Workout {
     _rep = 1;
     _step = WorkoutState.exercising;
     _timeLeft = _config.exerciseTime;
-    player.play(_settings.startSet);
+    _playSound(_settings.startSet);
   }
 
   _finish() {
     _timer.cancel();
     _step = WorkoutState.finished;
     _timeLeft = new Duration(seconds: 0);
-    player.play(_settings.endWorkout).then((p) {
+    _playSound(_settings.endWorkout).then((p) {
+      if (p == null) {
+        return;
+      }
       p.onPlayerCompletion.first.then((_) {
-        player.play(_settings.endWorkout);
+        _playSound(_settings.endWorkout);
       });
     });
   }

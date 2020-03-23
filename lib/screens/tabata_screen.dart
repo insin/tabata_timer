@@ -30,6 +30,22 @@ class _TabataScreenState extends State<TabataScreen> {
         title: Text('Tabata Timer'),
         leading: Icon(Icons.timer),
         actions: <Widget>[
+          Builder(
+            builder: (context) => IconButton(
+              icon: Icon(widget.settings.silentMode
+                  ? Icons.volume_off
+                  : Icons.volume_up),
+              onPressed: () {
+                widget.settings.silentMode = !widget.settings.silentMode;
+                widget.onSettingsChanged();
+                var snackBar = SnackBar(
+                    duration: Duration(seconds: 1),
+                    content: Text(
+                        'Silent mode ${!widget.settings.silentMode ? 'de' : ''}activated'));
+                Scaffold.of(context).showSnackBar(snackBar);
+              },
+            ),
+          ),
           IconButton(
             icon: Icon(
               Icons.settings,

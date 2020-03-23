@@ -89,6 +89,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
               widget.onSettingsChanged();
             },
           ),
+          SwitchListTile(
+            title: Text('Silent mode'),
+            value: widget.settings.silentMode,
+            onChanged: (silentMode) {
+              widget.settings.silentMode = silentMode;
+              widget.onSettingsChanged();
+            },
+          ),
           ListTile(
             title: Text('Light theme'),
             subtitle: Text(colorNames[widget.settings.primarySwatch]),
