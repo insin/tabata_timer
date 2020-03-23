@@ -107,6 +107,24 @@ class _TabataScreenState extends State<TabataScreen> {
             height: 10,
           ),
           ListTile(
+              title: Text('Starting Countdown'),
+              subtitle: Text(formatTime(_tabata.startDelay)),
+              leading: Icon(Icons.timer),
+              onTap: () {
+                showDialog<Duration>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return DurationPickerDialog(
+                        initialDuration: _tabata.startDelay,
+                        title: Text('Countdown before starting workout'),
+                      );
+                    }).then((startDelay) {
+                  if (startDelay == null) return;
+                  _tabata.startDelay = startDelay;
+                  _onTabataChanged();
+                });
+              }),
+          ListTile(
               title: Text('Exercise Time'),
               subtitle: Text(formatTime(_tabata.exerciseTime)),
               leading: Icon(Icons.timer),

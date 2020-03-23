@@ -7,12 +7,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 var player = new AudioCache();
 
-var defaultTabata = new Tabata(
-    sets: 5,
-    reps: 5,
-    exerciseTime: new Duration(seconds: 20),
-    restTime: new Duration(seconds: 10),
-    breakTime: new Duration(seconds: 60));
+var defaultTabata = Tabata(
+  sets: 5,
+  reps: 5,
+  startDelay: Duration(seconds: 10),
+  exerciseTime: Duration(seconds: 20),
+  restTime: Duration(seconds: 10),
+  breakTime: Duration(seconds: 60),
+);
 
 class Settings {
   final SharedPreferences _prefs;
@@ -75,7 +77,17 @@ class Tabata {
   /// Break time between sets
   Duration breakTime;
 
-  Tabata({this.sets, this.reps, this.exerciseTime, this.restTime, this.breakTime});
+  /// Initial countdown before starting workout
+  Duration startDelay;
+
+  Tabata({
+    this.sets,
+    this.reps,
+    this.startDelay,
+    this.exerciseTime,
+    this.restTime,
+    this.breakTime,
+  });
 
   Duration getTotalTime() {
     return (exerciseTime * sets * reps) +
