@@ -190,6 +190,10 @@ class Workout {
 
   _startRest() {
     _step = WorkoutState.resting;
+    if (_config.restTime.inSeconds == 0) {
+      _nextStep();
+      return;
+    }
     _timeLeft = _config.restTime;
     _playSound(_settings.startRest);
   }
@@ -203,6 +207,10 @@ class Workout {
 
   _startBreak() {
     _step = WorkoutState.breaking;
+    if (_config.breakTime.inSeconds == 0) {
+      _nextStep();
+      return;
+    }
     _timeLeft = _config.breakTime;
     _playSound(_settings.startBreak);
   }
