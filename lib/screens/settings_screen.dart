@@ -46,24 +46,26 @@ class AudioSelectListItem extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return ListTile(
-        trailing: IconButton(
-            icon: Icon(Icons.play_circle_outline),
-            onPressed: () {
-              player.play(value);
-            }),
-        title: Text(title, style: Theme.of(context).textTheme.subtitle),
-        subtitle: DropdownButton<String>(
-          isDense: true,
-          value: value,
-          items: [
-            DropdownMenuItem(child: Text('Low Beep'), value: 'pip.mp3'),
-            DropdownMenuItem(child: Text('High Beep'), value: 'boop.mp3'),
-            DropdownMenuItem(
-                child: Text('Ding Ding Ding!'), value: 'dingdingding.mp3'),
-          ],
-          isExpanded: true,
-          onChanged: onChanged,
-        ));
+      trailing: IconButton(
+        icon: Icon(Icons.play_circle_outline),
+        onPressed: () {
+          player.play(value);
+        },
+      ),
+      title: Text(title, style: Theme.of(context).textTheme.subtitle),
+      subtitle: DropdownButton<String>(
+        isDense: true,
+        value: value,
+        items: [
+          DropdownMenuItem(child: Text('Low Beep'), value: 'pip.mp3'),
+          DropdownMenuItem(child: Text('High Beep'), value: 'boop.mp3'),
+          DropdownMenuItem(
+              child: Text('Ding Ding Ding!'), value: 'dingdingding.mp3'),
+        ],
+        isExpanded: true,
+        onChanged: onChanged,
+      ),
+    );
   }
 }
 
@@ -128,47 +130,53 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
           ),
           AudioSelectListItem(
-              value: widget.settings.countdownPip,
-              title: 'Countdown pips',
-              onChanged: (String value) {
-                widget.settings.countdownPip = value;
-                widget.onSettingsChanged();
-              }),
+            value: widget.settings.countdownPip,
+            title: 'Countdown pips',
+            onChanged: (String value) {
+              widget.settings.countdownPip = value;
+              widget.onSettingsChanged();
+            },
+          ),
           AudioSelectListItem(
-              value: widget.settings.startRep,
-              title: 'Start next rep',
-              onChanged: (String value) {
-                widget.settings.startRep = value;
-                widget.onSettingsChanged();
-              }),
+            value: widget.settings.startRep,
+            title: 'Start next rep',
+            onChanged: (String value) {
+              widget.settings.startRep = value;
+              widget.onSettingsChanged();
+            },
+          ),
           AudioSelectListItem(
-              value: widget.settings.startRest,
-              title: 'Rest',
-              onChanged: (String value) {
-                widget.settings.startRest = value;
-                widget.onSettingsChanged();
-              }),
+            value: widget.settings.startRest,
+            title: 'Rest',
+            onChanged: (String value) {
+              widget.settings.startRest = value;
+              widget.onSettingsChanged();
+            },
+          ),
           AudioSelectListItem(
-              value: widget.settings.startBreak,
-              title: 'Break',
-              onChanged: (String value) {
-                widget.settings.startBreak = value;
-                widget.onSettingsChanged();
-              }),
+            value: widget.settings.startBreak,
+            title: 'Break',
+            onChanged: (String value) {
+              widget.settings.startBreak = value;
+              widget.onSettingsChanged();
+            },
+          ),
           AudioSelectListItem(
-              value: widget.settings.startSet,
-              title: 'Start next set',
-              onChanged: (String value) {
-                widget.settings.startSet = value;
-                widget.onSettingsChanged();
-              }),
+            value: widget.settings.startSet,
+            title: 'Start next set',
+            onChanged: (String value) {
+              widget.settings.startSet = value;
+              widget.onSettingsChanged();
+            },
+          ),
           AudioSelectListItem(
-              value: widget.settings.endWorkout,
-              title: 'End workout (plays twice)',
-              onChanged: (String value) {
-                widget.settings.endWorkout = value;
-                widget.onSettingsChanged();
-              }),
+            value: widget.settings.endWorkout,
+            title: 'End workout (plays twice)',
+            onChanged: (String value) {
+              widget.settings.endWorkout = value;
+              widget.onSettingsChanged();
+            },
+          ),
         ],
       ),
     );

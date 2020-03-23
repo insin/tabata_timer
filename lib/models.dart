@@ -5,7 +5,7 @@ import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-var player = new AudioCache();
+var player = AudioCache();
 
 var defaultTabata = Tabata(
   sets: 5,
@@ -113,7 +113,7 @@ class Workout {
   /// Time left in the current step
   Duration _timeLeft;
 
-  Duration _totalTime = new Duration(seconds: 0);
+  Duration _totalTime = Duration(seconds: 0);
 
   /// Current set
   int _set = 0;
@@ -129,7 +129,7 @@ class Workout {
       _step = WorkoutState.starting;
       _timeLeft = _config.startDelay;
     }
-    _timer = new Timer.periodic(new Duration(seconds: 1), _tick);
+    _timer = Timer.periodic(Duration(seconds: 1), _tick);
     _onStateChange();
   }
 
@@ -152,7 +152,7 @@ class Workout {
     if (_timeLeft.inSeconds == 1) {
       _nextStep();
     } else {
-      _timeLeft -= new Duration(seconds: 1);
+      _timeLeft -= Duration(seconds: 1);
       if (_timeLeft.inSeconds <= 3 && _timeLeft.inSeconds >= 1) {
         _playSound(_settings.countdownPip);
       }
@@ -218,7 +218,7 @@ class Workout {
   _finish() {
     _timer.cancel();
     _step = WorkoutState.finished;
-    _timeLeft = new Duration(seconds: 0);
+    _timeLeft = Duration(seconds: 0);
     _playSound(_settings.endWorkout).then((p) {
       if (p == null) {
         return;

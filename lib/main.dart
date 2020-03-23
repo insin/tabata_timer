@@ -40,7 +40,9 @@ class _TimerAppState extends State<TimerApp> {
             widget.settings.nightMode ? Brightness.dark : Brightness.light,
       ),
       home: TabataScreen(
-          settings: widget.settings, onSettingsChanged: _onSettingsChanged),
+        settings: widget.settings,
+        onSettingsChanged: _onSettingsChanged,
+      ),
     );
   }
 }

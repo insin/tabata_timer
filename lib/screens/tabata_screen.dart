@@ -52,11 +52,13 @@ class _TabataScreenState extends State<TabataScreen> {
             ),
             onPressed: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => SettingsScreen(
-                          settings: widget.settings,
-                          onSettingsChanged: widget.onSettingsChanged)));
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SettingsScreen(
+                      settings: widget.settings,
+                      onSettingsChanged: widget.onSettingsChanged),
+                ),
+              );
             },
           )
         ],
@@ -64,120 +66,132 @@ class _TabataScreenState extends State<TabataScreen> {
       body: ListView(
         children: <Widget>[
           ListTile(
-              title: Text('Sets'),
-              subtitle: Text('${_tabata.sets}'),
-              leading: Icon(Icons.fitness_center),
-              onTap: () {
-                showDialog<int>(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return NumberPickerDialog.integer(
-                        minValue: 1,
-                        maxValue: 10,
-                        initialIntegerValue: _tabata.sets,
-                        title: Text('Sets in the workout'),
-                      );
-                    }).then((sets) {
-                  if (sets == null) return;
-                  _tabata.sets = sets;
-                  _onTabataChanged();
-                });
-              }),
+            title: Text('Sets'),
+            subtitle: Text('${_tabata.sets}'),
+            leading: Icon(Icons.fitness_center),
+            onTap: () {
+              showDialog<int>(
+                context: context,
+                builder: (BuildContext context) {
+                  return NumberPickerDialog.integer(
+                    minValue: 1,
+                    maxValue: 10,
+                    initialIntegerValue: _tabata.sets,
+                    title: Text('Sets in the workout'),
+                  );
+                },
+              ).then((sets) {
+                if (sets == null) return;
+                _tabata.sets = sets;
+                _onTabataChanged();
+              });
+            },
+          ),
           ListTile(
-              title: Text('Reps'),
-              subtitle: Text('${_tabata.reps}'),
-              leading: Icon(Icons.repeat),
-              onTap: () {
-                showDialog<int>(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return NumberPickerDialog.integer(
-                        minValue: 1,
-                        maxValue: 10,
-                        initialIntegerValue: _tabata.reps,
-                        title: Text('Repetitions in each set'),
-                      );
-                    }).then((reps) {
-                  if (reps == null) return;
-                  _tabata.reps = reps;
-                  _onTabataChanged();
-                });
-              }),
+            title: Text('Reps'),
+            subtitle: Text('${_tabata.reps}'),
+            leading: Icon(Icons.repeat),
+            onTap: () {
+              showDialog<int>(
+                context: context,
+                builder: (BuildContext context) {
+                  return NumberPickerDialog.integer(
+                    minValue: 1,
+                    maxValue: 10,
+                    initialIntegerValue: _tabata.reps,
+                    title: Text('Repetitions in each set'),
+                  );
+                },
+              ).then((reps) {
+                if (reps == null) return;
+                _tabata.reps = reps;
+                _onTabataChanged();
+              });
+            },
+          ),
           Divider(
             height: 10,
           ),
           ListTile(
-              title: Text('Starting Countdown'),
-              subtitle: Text(formatTime(_tabata.startDelay)),
-              leading: Icon(Icons.timer),
-              onTap: () {
-                showDialog<Duration>(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return DurationPickerDialog(
-                        initialDuration: _tabata.startDelay,
-                        title: Text('Countdown before starting workout'),
-                      );
-                    }).then((startDelay) {
-                  if (startDelay == null) return;
-                  _tabata.startDelay = startDelay;
-                  _onTabataChanged();
-                });
-              }),
+            title: Text('Starting Countdown'),
+            subtitle: Text(formatTime(_tabata.startDelay)),
+            leading: Icon(Icons.timer),
+            onTap: () {
+              showDialog<Duration>(
+                context: context,
+                builder: (BuildContext context) {
+                  return DurationPickerDialog(
+                    initialDuration: _tabata.startDelay,
+                    title: Text('Countdown before starting workout'),
+                  );
+                },
+              ).then((startDelay) {
+                if (startDelay == null) return;
+                _tabata.startDelay = startDelay;
+                _onTabataChanged();
+              });
+            },
+          ),
           ListTile(
-              title: Text('Exercise Time'),
-              subtitle: Text(formatTime(_tabata.exerciseTime)),
-              leading: Icon(Icons.timer),
-              onTap: () {
-                showDialog<Duration>(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return DurationPickerDialog(
-                        initialDuration: _tabata.exerciseTime,
-                        title: Text('Excercise time per repetition'),
-                      );
-                    }).then((exerciseTime) {
-                  if (exerciseTime == null) return;
-                  _tabata.exerciseTime = exerciseTime;
-                  _onTabataChanged();
-                });
-              }),
+            title: Text('Exercise Time'),
+            subtitle: Text(formatTime(_tabata.exerciseTime)),
+            leading: Icon(Icons.timer),
+            onTap: () {
+              showDialog<Duration>(
+                context: context,
+                builder: (BuildContext context) {
+                  return DurationPickerDialog(
+                    initialDuration: _tabata.exerciseTime,
+                    title: Text('Excercise time per repetition'),
+                  );
+                },
+              ).then((exerciseTime) {
+                if (exerciseTime == null) return;
+                _tabata.exerciseTime = exerciseTime;
+                _onTabataChanged();
+              });
+            },
+          ),
           ListTile(
-              title: Text('Rest Time'),
-              subtitle: Text(formatTime(_tabata.restTime)),
-              leading: Icon(Icons.timer),
-              onTap: () {
-                showDialog<Duration>(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return DurationPickerDialog(
-                        initialDuration: _tabata.restTime,
-                        title: Text('Rest time between repetitions'),
-                      );
-                    }).then((restTime) {
-                  if (restTime == null) return;
-                  _tabata.restTime = restTime;
-                  _onTabataChanged();
-                });
-              }),
+            title: Text('Rest Time'),
+            subtitle: Text(formatTime(_tabata.restTime)),
+            leading: Icon(Icons.timer),
+            onTap: () {
+              showDialog<Duration>(
+                context: context,
+                builder: (BuildContext context) {
+                  return DurationPickerDialog(
+                    initialDuration: _tabata.restTime,
+                    title: Text('Rest time between repetitions'),
+                  );
+                },
+              ).then((restTime) {
+                if (restTime == null) return;
+                _tabata.restTime = restTime;
+                _onTabataChanged();
+              });
+            },
+          ),
           ListTile(
-              title: Text('Break Time'),
-              subtitle: Text(formatTime(_tabata.breakTime)),
-              leading: Icon(Icons.timer),
-              onTap: () {
-                showDialog<Duration>(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return DurationPickerDialog(
-                        initialDuration: _tabata.breakTime,
-                        title: Text('Break time between sets'),
-                      );
-                    }).then((breakTime) {
-                  if (breakTime == null) return;
-                  _tabata.breakTime = breakTime;
-                  _onTabataChanged();
-                });
-              }),
+            title: Text('Break Time'),
+            subtitle: Text(formatTime(_tabata.breakTime)),
+            leading: Icon(Icons.timer),
+            onTap: () {
+              showDialog<Duration>(
+                context: context,
+                builder: (BuildContext context) {
+                  return DurationPickerDialog(
+                    initialDuration: _tabata.breakTime,
+                    title: Text('Break time between sets'),
+                  );
+                },
+              ).then((breakTime) {
+                if (breakTime == null) return;
+                _tabata.breakTime = breakTime;
+                _onTabataChanged();
+              });
+            },
+          ),
           Divider(height: 10),
           ListTile(
             title: Text(
