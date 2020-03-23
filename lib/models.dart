@@ -145,17 +145,17 @@ class Workout {
   }
 
   _tick(Timer timer) {
-    if (_timeLeft == new Duration(seconds: 1)) {
+    if (_step != WorkoutState.starting) {
+      _totalTime += Duration(seconds: 1);
+    }
+
+    if (_timeLeft.inSeconds == 1) {
       _nextStep();
     } else {
       _timeLeft -= new Duration(seconds: 1);
       if (_timeLeft.inSeconds <= 3 && _timeLeft.inSeconds >= 1) {
         _playSound(_settings.countdownPip);
       }
-    }
-
-    if (_step != WorkoutState.starting) {
-      _totalTime += new Duration(seconds: 1);
     }
 
     _onStateChange();
