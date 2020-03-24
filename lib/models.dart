@@ -127,7 +127,11 @@ class Workout {
   start() {
     if (_step == WorkoutState.initial) {
       _step = WorkoutState.starting;
-      _timeLeft = _config.startDelay;
+      if (_config.startDelay.inSeconds == 0) {
+        _nextStep();
+      } else {
+        _timeLeft = _config.startDelay;
+      }
     }
     _timer = Timer.periodic(Duration(seconds: 1), _tick);
     _onStateChange();
