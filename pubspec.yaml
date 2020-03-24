@@ -9,7 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  audioplayers: ^0.14.1
+  audioplayers: ^0.14.2
   auto_size_text: ^2.1.0
   flutter_colorpicker: ^0.3.2
   numberpicker: ^1.2.0
