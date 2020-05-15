@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models.dart';
 import '../utils.dart';
@@ -9,19 +12,36 @@ import 'workout_screen.dart';
 
 class TabataScreen extends StatefulWidget {
   final Settings settings;
+  final SharedPreferences prefs;
   final Function onSettingsChanged;
 
-  TabataScreen({@required this.settings, @required this.onSettingsChanged});
+  TabataScreen({
+    @required this.settings,
+    @required this.prefs,
+    @required this.onSettingsChanged,
+  });
 
   @override
   State<StatefulWidget> createState() => _TabataScreenState();
 }
 
 class _TabataScreenState extends State<TabataScreen> {
-  Tabata _tabata = defaultTabata;
+  Tabata _tabata;
+
+  @override
+  initState() {
+    var json = widget.prefs.getString('tabata');
+    _tabata = json != null ? Tabata.fromJson(jsonDecode(json)) : defaultTabata;
+    super.initState();
+  }
 
   _onTabataChanged() {
     setState(() {});
+    _saveTabata();
+  }
+
+  _saveTabata() {
+    widget.prefs.setString('tabata', jsonEncode(_tabata.toJson()));
   }
 
   Widget build(BuildContext context) {

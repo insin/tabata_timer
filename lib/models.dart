@@ -7,14 +7,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 var player = AudioCache();
 
-var defaultTabata = Tabata(
-  sets: 5,
-  reps: 5,
-  startDelay: Duration(seconds: 10),
-  exerciseTime: Duration(seconds: 20),
-  restTime: Duration(seconds: 10),
-  breakTime: Duration(seconds: 60),
-);
+Tabata get defaultTabata => Tabata(
+      sets: 5,
+      reps: 5,
+      startDelay: Duration(seconds: 10),
+      exerciseTime: Duration(seconds: 20),
+      restTime: Duration(seconds: 10),
+      breakTime: Duration(seconds: 60),
+    );
 
 class Settings {
   final SharedPreferences _prefs;
@@ -94,6 +94,23 @@ class Tabata {
         (restTime * sets * (reps - 1)) +
         (breakTime * (sets - 1));
   }
+
+  Tabata.fromJson(Map<String, dynamic> json)
+      : sets = json['sets'],
+        reps = json['reps'],
+        exerciseTime = Duration(seconds: json['exerciseTime']),
+        restTime = Duration(seconds: json['restTime']),
+        breakTime = Duration(seconds: json['breakTime']),
+        startDelay = Duration(seconds: json['startDelay']);
+
+  Map<String, dynamic> toJson() => {
+        'sets': sets,
+        'reps': reps,
+        'exerciseTime': exerciseTime.inSeconds,
+        'restTime': restTime.inSeconds,
+        'breakTime': breakTime.inSeconds,
+        'startDelay': startDelay.inSeconds,
+      };
 }
 
 enum WorkoutState { initial, starting, exercising, resting, breaking, finished }
