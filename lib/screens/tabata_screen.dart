@@ -64,6 +64,7 @@ class _TabataScreenState extends State<TabataScreen> {
                         'Silent mode ${!widget.settings.silentMode ? 'de' : ''}activated'));
                 Scaffold.of(context).showSnackBar(snackBar);
               },
+              tooltip: 'Toggle silent mode',
             ),
           ),
           IconButton(
@@ -80,7 +81,8 @@ class _TabataScreenState extends State<TabataScreen> {
                 ),
               );
             },
-          )
+            tooltip: 'Display settings',
+          ),
         ],
       ),
       body: ListView(
