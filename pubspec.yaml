@@ -4,7 +4,7 @@ description: Tabata training interval timer.
 # Prevent accidentally publishing to pub.dev using `pub publish`
 publish_to: 'none'
 
-version: 1.4.0+7
+version: 1.4.1+8
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
