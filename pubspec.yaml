@@ -17,7 +17,7 @@ dependencies:
   flutter_colorpicker: ^0.3.4
   numberpicker: ^1.2.0
   screen: ^0.0.5
-  shared_preferences: ^0.5.7+2
+  shared_preferences: ^0.5.7+3
 
 dev_dependencies:
   flutter_test:
