@@ -52,7 +52,7 @@ class AudioSelectListItem extends StatelessWidget {
           player.play(value);
         },
       ),
-      title: Text(title, style: Theme.of(context).textTheme.subtitle),
+      title: Text(title, style: Theme.of(context).textTheme.subtitle2),
       subtitle: DropdownButton<String>(
         isDense: true,
         value: value,
@@ -80,7 +80,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ListTile(
             title: Text(
               'Theme',
-              style: Theme.of(context).textTheme.subtitle,
+              style: Theme.of(context).textTheme.subtitle2,
             ),
           ),
           SwitchListTile(
@@ -126,7 +126,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ListTile(
             title: Text(
               'Sounds',
-              style: Theme.of(context).textTheme.subtitle,
+              style: Theme.of(context).textTheme.subtitle2,
             ),
           ),
           AudioSelectListItem(

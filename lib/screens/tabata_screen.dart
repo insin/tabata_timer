@@ -81,7 +81,7 @@ class _TabataScreenState extends State<TabataScreen> {
                 ),
               );
             },
-            tooltip: 'Display settings',
+            tooltip: 'Settings',
           ),
         ],
       ),

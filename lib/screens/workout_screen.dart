@@ -56,7 +56,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     this.setState(() {});
   }
 
-  _getBackgroundColor() {
+  _getBackgroundColor(ThemeData theme) {
     switch (_workout.step) {
       case WorkoutState.exercising:
         return Colors.green;
@@ -66,7 +66,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
       case WorkoutState.breaking:
         return Colors.red;
       default:
-        return Colors.white;
+        return theme.scaffoldBackgroundColor;
     }
   }
 
@@ -81,11 +81,11 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   }
 
   Widget build(BuildContext context) {
-    var lightTextColor =
-        Theme.of(context).textTheme.body1.color.withOpacity(0.8);
+    var theme = Theme.of(context);
+    var lightTextColor = theme.textTheme.bodyText2.color.withOpacity(0.8);
     return Scaffold(
       body: Container(
-        color: _getBackgroundColor(),
+        color: _getBackgroundColor(theme),
         padding: EdgeInsets.symmetric(horizontal: 15),
         child: Column(
           children: <Widget>[
