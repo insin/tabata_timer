@@ -1,4 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:screen/screen.dart';
 
@@ -90,12 +89,13 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
         child: Column(
           children: <Widget>[
             Expanded(child: Row()),
-            Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-              Text(stepName(_workout.step), style: TextStyle(fontSize: 40.0))
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Text(stepName(_workout.step), style: TextStyle(fontSize: 60.0))
             ]),
             Divider(height: 32, color: lightTextColor),
-            AutoSizeText(formatTime(_workout.timeLeft),
-                style: TextStyle(fontSize: 200.0), maxLines: 1),
+            Container(
+                width: MediaQuery.of(context).size.width,
+                child: FittedBox(child: Text(formatTime(_workout.timeLeft)))),
             Divider(height: 32, color: lightTextColor),
             Table(columnWidths: {
               0: FlexColumnWidth(0.5),
@@ -103,43 +103,28 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
               2: FlexColumnWidth(1.0)
             }, children: [
               TableRow(children: [
-                TableCell(child: Text('Set', style: TextStyle(fontSize: 18.0))),
-                TableCell(child: Text('Rep', style: TextStyle(fontSize: 18.0))),
+                TableCell(child: Text('Set', style: TextStyle(fontSize: 30.0))),
+                TableCell(child: Text('Rep', style: TextStyle(fontSize: 30.0))),
                 TableCell(
                     child: Text('Total Time',
                         textAlign: TextAlign.end,
-                        style: TextStyle(fontSize: 18.0)))
+                        style: TextStyle(fontSize: 30.0)))
               ]),
               TableRow(children: [
                 TableCell(
-                    child: Row(children: [
-                  Text('${_workout.set}', style: TextStyle(fontSize: 30.0)),
-                  Text(' / ${_workout.config.sets}',
-                      style: TextStyle(color: lightTextColor))
-                ])),
+                  child:
+                      Text('${_workout.set}', style: TextStyle(fontSize: 60.0)),
+                ),
                 TableCell(
-                    child: Row(children: [
-                  Text('${_workout.rep}', style: TextStyle(fontSize: 30.0)),
-                  Text(' / ${_workout.config.reps}',
-                      style: TextStyle(color: lightTextColor))
-                ])),
+                  child:
+                      Text('${_workout.rep}', style: TextStyle(fontSize: 60.0)),
+                ),
                 TableCell(
                     child: Text(
                   formatTime(_workout.totalTime),
-                  style: TextStyle(fontSize: 30.0),
+                  style: TextStyle(fontSize: 60.0),
                   textAlign: TextAlign.right,
                 ))
-              ]),
-              TableRow(children: [
-                TableCell(child: Text('')),
-                TableCell(child: Text('')),
-                TableCell(
-                  child: Text(
-                    ' / ${formatTime(_workout.config.getTotalTime())}',
-                    style: TextStyle(color: lightTextColor),
-                    textAlign: TextAlign.right,
-                  ),
-                )
               ]),
             ]),
             Expanded(child: _buildButtonBar()),
