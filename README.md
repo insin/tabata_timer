@@ -8,26 +8,14 @@ You can try an online demo here: https://insin.github.io/tabata_timer
 
 ## Screenshots
 
-### Tabata config
+| Workout settings | Excercise period | Rest period |
+| ---------------- | ---------------- | ----------- |
+| ![](screenshots/tabata_config.png) | ![](screenshots/workout_exercise.png) | ![](screenshots/workout_rest.png)
 
-![](screenshots/tabata_config.png)
+| App settings | Light mode theme selection |
+| ------------ | -------------------------- |
+| ![](screenshots/settings.png) | ![](screenshots/light_theme.png) |
 
-### Workout screen
-
-![](screenshots/workout_exercise.png)
-
-![](screenshots/workout_rest.png)
-
-### Settings
-
-![](screenshots/settings.png)
-
-### Light theme selection
-
-![](screenshots/light_theme.png)
-
-### Night mode
-
-![](screenshots/tabata_config_night.png)
-
-![](screenshots/workout_night.png)
+| Night mode | Night mode workout |
+| ---------- | ------------------ |
+| ![](screenshots/tabata_config_night.png) | ![](screenshots/workout_night.png) |
