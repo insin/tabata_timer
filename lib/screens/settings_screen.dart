@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
@@ -49,7 +50,7 @@ class AudioSelectListItem extends StatelessWidget {
       trailing: IconButton(
         icon: Icon(Icons.play_circle_outline),
         onPressed: () {
-          player.play(value);
+          player.play(value, mode: PlayerMode.LOW_LATENCY);
         },
       ),
       title: Text(title, style: Theme.of(context).textTheme.subtitle2),

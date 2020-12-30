@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:audioplayers/audio_cache.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -206,7 +207,7 @@ class Workout {
     if (_settings.silentMode) {
       return Future.value();
     }
-    return player.play(sound);
+    return player.play(sound, mode: PlayerMode.LOW_LATENCY);
   }
 
   _startRest() {
