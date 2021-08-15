@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:screen/screen.dart';
+import 'package:wakelock/wakelock.dart';
 
 import '../models.dart';
 import '../utils.dart';
@@ -25,14 +25,14 @@ class WorkoutScreen extends StatefulWidget {
   final Settings settings;
   final Tabata tabata;
 
-  WorkoutScreen({this.settings, this.tabata});
+  WorkoutScreen({required this.settings, required this.tabata});
 
   @override
   State<StatefulWidget> createState() => _WorkoutScreenState();
 }
 
 class _WorkoutScreenState extends State<WorkoutScreen> {
-  Workout _workout;
+  late Workout _workout;
 
   @override
   initState() {
@@ -44,13 +44,13 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   @override
   dispose() {
     _workout.dispose();
-    Screen.keepOn(false);
+    Wakelock.disable();
     super.dispose();
   }
 
   _onWorkoutChanged() {
     if (_workout.step == WorkoutState.finished) {
-      Screen.keepOn(false);
+      Wakelock.disable();
     }
     this.setState(() {});
   }
@@ -71,17 +71,17 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
 
   _pause() {
     _workout.pause();
-    Screen.keepOn(false);
+    Wakelock.disable();
   }
 
   _start() {
     _workout.start();
-    Screen.keepOn(true);
+    Wakelock.enable();
   }
 
   Widget build(BuildContext context) {
     var theme = Theme.of(context);
-    var lightTextColor = theme.textTheme.bodyText2.color.withOpacity(0.8);
+    var lightTextColor = theme.textTheme.bodyText2?.color?.withOpacity(0.8);
     return Scaffold(
       body: Container(
         color: _getBackgroundColor(theme),
@@ -139,9 +139,11 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
       return Container();
     }
     return Align(
-        alignment: Alignment.bottomCenter,
-        child: FlatButton(
-            onPressed: _workout.isActive ? _pause : _start,
-            child: Icon(_workout.isActive ? Icons.pause : Icons.play_arrow)));
+      alignment: Alignment.bottomCenter,
+      child: TextButton(
+        onPressed: _workout.isActive ? _pause : _start,
+        child: Icon(_workout.isActive ? Icons.pause : Icons.play_arrow),
+      ),
+    );
   }
 }

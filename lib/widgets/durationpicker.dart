@@ -3,28 +3,28 @@ import 'package:numberpicker/numberpicker.dart';
 
 class DurationPickerDialog extends StatefulWidget {
   final Duration initialDuration;
-  final EdgeInsets titlePadding;
+  final EdgeInsets? titlePadding;
   final Widget title;
   final Widget confirmWidget;
   final Widget cancelWidget;
 
   DurationPickerDialog({
-    @required this.initialDuration,
-    this.title,
+    required this.initialDuration,
+    required this.title,
     this.titlePadding,
-    Widget confirmWidget,
-    Widget cancelWidget,
-  })  : confirmWidget = confirmWidget ?? new Text('OK'),
-        cancelWidget = cancelWidget ?? new Text('CANCEL');
+    Widget? confirmWidget,
+    Widget? cancelWidget,
+  })  : confirmWidget = confirmWidget ?? Text('OK'),
+        cancelWidget = cancelWidget ?? Text('CANCEL');
 
   @override
   State<StatefulWidget> createState() =>
-      new _DurationPickerDialogState(initialDuration);
+      _DurationPickerDialogState(initialDuration);
 }
 
 class _DurationPickerDialogState extends State<DurationPickerDialog> {
-  int minutes;
-  int seconds;
+  late int minutes;
+  late int seconds;
 
   _DurationPickerDialogState(Duration initialDuration) {
     minutes = initialDuration.inMinutes;
@@ -33,13 +33,13 @@ class _DurationPickerDialogState extends State<DurationPickerDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return new AlertDialog(
+    return AlertDialog(
       title: widget.title,
       titlePadding: widget.titlePadding,
       content: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        new NumberPicker.integer(
-          listViewWidth: 65,
-          initialValue: minutes,
+        NumberPicker(
+          itemWidth: 65,
+          value: minutes,
           minValue: 0,
           maxValue: 10,
           zeroPad: true,
@@ -53,9 +53,9 @@ class _DurationPickerDialogState extends State<DurationPickerDialog> {
           ':',
           style: TextStyle(fontSize: 30),
         ),
-        new NumberPicker.integer(
-          listViewWidth: 65,
-          initialValue: seconds,
+        NumberPicker(
+          itemWidth: 65,
+          value: seconds,
           minValue: 0,
           maxValue: 59,
           zeroPad: true,
@@ -67,13 +67,13 @@ class _DurationPickerDialogState extends State<DurationPickerDialog> {
         ),
       ]),
       actions: [
-        new FlatButton(
+        TextButton(
           onPressed: () => Navigator.of(context).pop(),
           child: widget.cancelWidget,
         ),
-        new FlatButton(
+        TextButton(
           onPressed: () => Navigator.of(context)
-              .pop(new Duration(minutes: minutes, seconds: seconds)),
+              .pop(Duration(minutes: minutes, seconds: seconds)),
           child: widget.confirmWidget,
         ),
       ],

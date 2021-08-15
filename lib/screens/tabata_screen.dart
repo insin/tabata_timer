@@ -16,9 +16,9 @@ class TabataScreen extends StatefulWidget {
   final Function onSettingsChanged;
 
   TabataScreen({
-    @required this.settings,
-    @required this.prefs,
-    @required this.onSettingsChanged,
+    required this.settings,
+    required this.prefs,
+    required this.onSettingsChanged,
   });
 
   @override
@@ -26,12 +26,14 @@ class TabataScreen extends StatefulWidget {
 }
 
 class _TabataScreenState extends State<TabataScreen> {
-  Tabata _tabata;
+  Tabata _tabata = defaultTabata;
 
   @override
   initState() {
     var json = widget.prefs.getString('tabata');
-    _tabata = json != null ? Tabata.fromJson(jsonDecode(json)) : defaultTabata;
+    if (json != null) {
+      _tabata = Tabata.fromJson(jsonDecode(json));
+    }
     super.initState();
   }
 
@@ -62,7 +64,7 @@ class _TabataScreenState extends State<TabataScreen> {
                     duration: Duration(seconds: 1),
                     content: Text(
                         'Silent mode ${!widget.settings.silentMode ? 'de' : ''}activated'));
-                Scaffold.of(context).showSnackBar(snackBar);
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
               },
               tooltip: 'Toggle silent mode',
             ),
@@ -92,15 +94,35 @@ class _TabataScreenState extends State<TabataScreen> {
             subtitle: Text('${_tabata.sets}'),
             leading: Icon(Icons.fitness_center),
             onTap: () {
+              int _value = _tabata.sets;
               showDialog<int>(
                 context: context,
                 builder: (BuildContext context) {
-                  return NumberPickerDialog.integer(
-                    minValue: 1,
-                    maxValue: 10,
-                    initialIntegerValue: _tabata.sets,
-                    title: Text('Sets in the workout'),
-                  );
+                  return StatefulBuilder(builder: (context, setState) {
+                    return AlertDialog(
+                      title: Text('Sets in the workout'),
+                      content: NumberPicker(
+                        value: _value,
+                        minValue: 1,
+                        maxValue: 10,
+                        onChanged: (value) {
+                          setState(() {
+                            _value = value;
+                          });
+                        },
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.of(context).pop(),
+                          child: Text('CANCEL'),
+                        ),
+                        TextButton(
+                          onPressed: () => Navigator.of(context).pop(_value),
+                          child: Text('OK'),
+                        )
+                      ],
+                    );
+                  });
                 },
               ).then((sets) {
                 if (sets == null) return;
@@ -114,15 +136,35 @@ class _TabataScreenState extends State<TabataScreen> {
             subtitle: Text('${_tabata.reps}'),
             leading: Icon(Icons.repeat),
             onTap: () {
+              int _value = _tabata.reps;
               showDialog<int>(
                 context: context,
                 builder: (BuildContext context) {
-                  return NumberPickerDialog.integer(
-                    minValue: 1,
-                    maxValue: 10,
-                    initialIntegerValue: _tabata.reps,
-                    title: Text('Repetitions in each set'),
-                  );
+                  return StatefulBuilder(builder: (context, setState) {
+                    return AlertDialog(
+                      title: Text('Repetitions in each set'),
+                      content: NumberPicker(
+                        value: _value,
+                        minValue: 1,
+                        maxValue: 10,
+                        onChanged: (value) {
+                          setState(() {
+                            _value = value;
+                          });
+                        },
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.of(context).pop(),
+                          child: Text('CANCEL'),
+                        ),
+                        TextButton(
+                          onPressed: () => Navigator.of(context).pop(_value),
+                          child: Text('OK'),
+                        )
+                      ],
+                    );
+                  });
                 },
               ).then((reps) {
                 if (reps == null) return;
@@ -234,7 +276,7 @@ class _TabataScreenState extends State<TabataScreen> {
                       settings: widget.settings, tabata: _tabata)));
         },
         backgroundColor: Theme.of(context).primaryColor,
-        foregroundColor: Theme.of(context).primaryTextTheme.button.color,
+        foregroundColor: Theme.of(context).primaryTextTheme.button?.color,
         tooltip: 'Start Workout',
         child: Icon(Icons.play_arrow),
       ),

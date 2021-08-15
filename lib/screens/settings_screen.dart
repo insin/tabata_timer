@@ -31,7 +31,7 @@ class SettingsScreen extends StatefulWidget {
 
   final Function onSettingsChanged;
 
-  SettingsScreen({@required this.settings, @required this.onSettingsChanged});
+  SettingsScreen({required this.settings, required this.onSettingsChanged});
 
   @override
   State<StatefulWidget> createState() => _SettingsScreenState();
@@ -40,10 +40,10 @@ class SettingsScreen extends StatefulWidget {
 class AudioSelectListItem extends StatelessWidget {
   final String title;
   final String value;
-  final Function(String) onChanged;
+  final Function(String?) onChanged;
 
   AudioSelectListItem(
-      {@required this.title, @required this.onChanged, this.value});
+      {required this.title, required this.onChanged, required this.value});
 
   Widget build(BuildContext context) {
     return ListTile(
@@ -54,7 +54,7 @@ class AudioSelectListItem extends StatelessWidget {
         },
       ),
       title: Text(title, style: Theme.of(context).textTheme.subtitle2),
-      subtitle: DropdownButton<String>(
+      subtitle: DropdownButton<String?>(
         isDense: true,
         value: value,
         items: [
@@ -102,7 +102,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           ListTile(
             title: Text('Light theme'),
-            subtitle: Text(colorNames[widget.settings.primarySwatch]),
+            subtitle: Text(colorNames[widget.settings.primarySwatch] ?? ''),
             onTap: () {
               showDialog(
                 context: context,
@@ -113,7 +113,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         availableColors: Colors.primaries,
                         pickerColor: widget.settings.primarySwatch,
                         onColorChanged: (Color color) {
-                          widget.settings.primarySwatch = color;
+                          widget.settings.primarySwatch =
+                              color as MaterialColor;
                           widget.onSettingsChanged();
                         },
                       ),
@@ -133,48 +134,48 @@ class _SettingsScreenState extends State<SettingsScreen> {
           AudioSelectListItem(
             value: widget.settings.countdownPip,
             title: 'Countdown pips',
-            onChanged: (String value) {
-              widget.settings.countdownPip = value;
+            onChanged: (String? value) {
+              widget.settings.countdownPip = value!;
               widget.onSettingsChanged();
             },
           ),
           AudioSelectListItem(
             value: widget.settings.startRep,
             title: 'Start next rep',
-            onChanged: (String value) {
-              widget.settings.startRep = value;
+            onChanged: (String? value) {
+              widget.settings.startRep = value!;
               widget.onSettingsChanged();
             },
           ),
           AudioSelectListItem(
             value: widget.settings.startRest,
             title: 'Rest',
-            onChanged: (String value) {
-              widget.settings.startRest = value;
+            onChanged: (String? value) {
+              widget.settings.startRest = value!;
               widget.onSettingsChanged();
             },
           ),
           AudioSelectListItem(
             value: widget.settings.startBreak,
             title: 'Break',
-            onChanged: (String value) {
-              widget.settings.startBreak = value;
+            onChanged: (String? value) {
+              widget.settings.startBreak = value!;
               widget.onSettingsChanged();
             },
           ),
           AudioSelectListItem(
             value: widget.settings.startSet,
             title: 'Start next set',
-            onChanged: (String value) {
-              widget.settings.startSet = value;
+            onChanged: (String? value) {
+              widget.settings.startSet = value!;
               widget.onSettingsChanged();
             },
           ),
           AudioSelectListItem(
             value: widget.settings.endWorkout,
             title: 'End workout (plays twice)',
-            onChanged: (String value) {
-              widget.settings.endWorkout = value;
+            onChanged: (String? value) {
+              widget.settings.endWorkout = value!;
               widget.onSettingsChanged();
             },
           ),

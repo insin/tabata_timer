@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,15 +19,15 @@ Tabata get defaultTabata => Tabata(
 class Settings {
   final SharedPreferences _prefs;
 
-  bool nightMode;
-  bool silentMode;
-  Color primarySwatch;
-  String countdownPip;
-  String startRep;
-  String startRest;
-  String startBreak;
-  String startSet;
-  String endWorkout;
+  late bool nightMode;
+  late bool silentMode;
+  late MaterialColor primarySwatch;
+  late String countdownPip;
+  late String startRep;
+  late String startRest;
+  late String startBreak;
+  late String startSet;
+  late String endWorkout;
 
   Settings(this._prefs) {
     Map<String, dynamic> json =
@@ -82,12 +81,12 @@ class Tabata {
   Duration startDelay;
 
   Tabata({
-    this.sets,
-    this.reps,
-    this.startDelay,
-    this.exerciseTime,
-    this.restTime,
-    this.breakTime,
+    required this.sets,
+    required this.reps,
+    required this.startDelay,
+    required this.exerciseTime,
+    required this.restTime,
+    required this.breakTime,
   });
 
   Duration getTotalTime() {
@@ -126,10 +125,10 @@ class Workout {
 
   WorkoutState _step = WorkoutState.initial;
 
-  Timer _timer;
+  Timer? _timer;
 
   /// Time left in the current step
-  Duration _timeLeft;
+  late Duration _timeLeft;
 
   Duration _totalTime = Duration(seconds: 0);
 
@@ -157,13 +156,13 @@ class Workout {
 
   /// Pauses the workout
   pause() {
-    _timer.cancel();
+    _timer?.cancel();
     _onStateChange();
   }
 
   /// Stops the timer without triggering the state change callback.
   dispose() {
-    _timer.cancel();
+    _timer?.cancel();
   }
 
   _tick(Timer timer) {
@@ -246,7 +245,7 @@ class Workout {
   }
 
   _finish() {
-    _timer.cancel();
+    _timer?.cancel();
     _step = WorkoutState.finished;
     _timeLeft = Duration(seconds: 0);
     _playSound(_settings.endWorkout).then((p) {
@@ -271,5 +270,5 @@ class Workout {
 
   get totalTime => _totalTime;
 
-  get isActive => _timer != null && _timer.isActive;
+  get isActive => _timer != null && _timer!.isActive;
 }

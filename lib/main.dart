@@ -19,7 +19,7 @@ class TimerApp extends StatefulWidget {
   final Settings settings;
   final SharedPreferences prefs;
 
-  TimerApp({this.settings, this.prefs});
+  TimerApp({required this.settings, required this.prefs});
 
   @override
   State<StatefulWidget> createState() => _TimerAppState();
